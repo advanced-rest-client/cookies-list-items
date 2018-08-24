@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>cookies-list-items test</title>
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
+  <link rel="import" href="../../iron-test-helpers/mock-interactions.html">
+  <link rel="import" href="../cookies-list-items.html">
+</head>
+<body>
+  <test-fixture id="Basic">
+    <template>
+      <cookies-list-items></cookies-list-items>
+    </template>
+  </test-fixture>
+
+  <script>
+  /* global DataGenerator, MockInteractions */
+  suite('cookies-list-items', () => {
+    function actionElement(element, action) {
+      return element.shadowRoot.querySelector('[data-action="' + action + '"]');
+    }
+
+    suite('Empty list', () => {
+      let element;
+      setup((done) => {
+        element = fixture('Basic');
+        flush(() => done());
+      });
+
+      test('selectedItems is empty', () => {
+        assert.lengthOf(element.selectedItems, 0);
+      });
+
+      test('hasSelection is false', () => {
+        assert.isFalse(element.hasSelection);
+      });
+
+      test('allSelected is false', () => {
+        assert.isFalse(element.allSelected);
+      });
+
+      test('empty is true', () => {
+        assert.isTrue(element.empty);
+      });
+    });
+
+    suite('List with items', () => {
+      let element;
+      setup((done) => {
+        element = fixture('Basic');
+        element.items = DataGenerator.generateCookiesData({size: 20});
+        flush(() => done());
+      });
+
+      test('Selectes an element via checkbox', (done) => {
+        const node = element.shadowRoot.querySelector('paper-icon-item paper-checkbox');
+        element.addEventListener('selected-items-changed', function f() {
+          element.removeEventListener('selected-items-changed', f);
+          assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
+          done();
+        });
+        MockInteractions.tap(node);
+      });
+
+      test('Deselectes an element via checkbox', (done) => {
+        const node = element.shadowRoot.querySelector('paper-icon-item paper-checkbox');
+        let i = 0;
+        element.addEventListener('selected-items-changed', function f() {
+          i++;
+          if (i === 1) {
+            assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
+            MockInteractions.tap(node);
+          } else if (i === 2) {
+            element.removeEventListener('selected-items-changed', f);
+            assert.lengthOf(element.selectedItems, 0, 'selectedItems has one selection');
+            done();
+          }
+        });
+        MockInteractions.tap(node);
+      });
+
+      test('Selectes an element via list item', (done) => {
+        const node = element.shadowRoot.querySelector('.cookie-item');
+        element.addEventListener('selected-items-changed', function f() {
+          element.removeEventListener('selected-items-changed', f);
+          assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
+          done();
+        });
+        MockInteractions.tap(node);
+      });
+
+      test('Deselectes an element via list item', (done) => {
+        const node = element.shadowRoot.querySelector('.cookie-item');
+        let i = 0;
+        element.addEventListener('selected-items-changed', function f() {
+          i++;
+          if (i === 1) {
+            assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
+            MockInteractions.tap(node);
+          } else if (i === 2) {
+            element.removeEventListener('selected-items-changed', f);
+            assert.lengthOf(element.selectedItems, 0, 'selectedItems has one selection');
+            done();
+          }
+        });
+        MockInteractions.tap(node);
+      });
+
+      test('Dispatches "list-item-details" custom event', (done) => {
+        element.addEventListener('list-item-details', function f(e) {
+          element.removeEventListener('list-item-details', f);
+          assert.isFalse(e.bubbles);
+          assert.typeOf(e.detail.item, 'object');
+          done();
+        });
+        const node = actionElement(element, 'item-detail');
+        MockInteractions.tap(node);
+      });
+
+      function selectAndWait(size, element, done) {
+        element.addEventListener('selected-items-changed', function f() {
+          if (element.selectedItems.length !== size) {
+            return;
+          }
+          element.removeEventListener('selected-items-changed', f);
+          done();
+        });
+        const nodes = element.shadowRoot.querySelectorAll('.cookie-item');
+        for (let i = 0; i < size; i++) {
+          MockInteractions.tap(nodes[i]);
+        }
+      }
+
+      test('Dispatches export to file event', (done) => {
+        element.addEventListener('list-items-export', function f(e) {
+          element.removeEventListener('list-items-export', f);
+          assert.isFalse(e.bubbles);
+          assert.lengthOf(e.detail.items, 2);
+          assert.equal(e.detail.destination, 'file');
+          done();
+        });
+        selectAndWait(2, element, () => {
+          const node = actionElement(element, 'export-selected-file');
+          MockInteractions.tap(node);
+        });
+      });
+
+      test('Dispatches export to Drive event', (done) => {
+        element.addEventListener('list-items-export', function f(e) {
+          element.removeEventListener('list-items-export', f);
+          assert.isFalse(e.bubbles);
+          assert.lengthOf(e.detail.items, 3);
+          assert.equal(e.detail.destination, 'drive');
+          done();
+        });
+        selectAndWait(3, element, () => {
+          const node = actionElement(element, 'export-selected-drive');
+          MockInteractions.tap(node);
+        });
+      });
+
+      test('Dispatches list-items-delete event', (done) => {
+        element.addEventListener('list-items-delete', function f(e) {
+          element.removeEventListener('list-items-delete', f);
+          assert.isFalse(e.bubbles);
+          assert.lengthOf(e.detail.items, 4);
+          done();
+        });
+        selectAndWait(4, element, () => {
+          const node = actionElement(element, 'delete-selected');
+          MockInteractions.tap(node);
+        });
+      });
+    });
+  });
+  </script>
+</body>
+</html>
