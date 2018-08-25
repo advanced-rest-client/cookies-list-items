@@ -412,9 +412,7 @@ the License.
      */
     _closeMenu() {
       this.$.listMenu.opened = false;
-      Polymer.RenderStatus.afterNextRender(this, () => {
-        this.$.listMenuOptions.selected = -1;
-      });
+      this.$.listMenuOptions.selected = -1;
     }
     /**
      * Dispatches the `list-items-search` with current filter value.
