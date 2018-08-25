@@ -149,6 +149,19 @@
         });
       });
 
+      test('Clears menu selection when saving to file', (done) => {
+        element.$.listMenuOptions.selected = 0;
+        element.addEventListener('list-items-export', function f() {
+          element.removeEventListener('list-items-export', f);
+          assert.equal(element.$.listMenuOptions.selected, -1);
+          done();
+        });
+        selectAndWait(3, element, () => {
+          const node = actionElement(element, 'export-selected-file');
+          MockInteractions.tap(node);
+        });
+      });
+
       test('Dispatches export to Drive event', (done) => {
         element.addEventListener('list-items-export', function f(e) {
           element.removeEventListener('list-items-export', f);
@@ -163,11 +176,37 @@
         });
       });
 
+      test('Clears menu selection when saving to Drive', (done) => {
+        element.$.listMenuOptions.selected = 1;
+        element.addEventListener('list-items-export', function f() {
+          element.removeEventListener('list-items-export', f);
+          assert.equal(element.$.listMenuOptions.selected, -1);
+          done();
+        });
+        selectAndWait(3, element, () => {
+          const node = actionElement(element, 'export-selected-drive');
+          MockInteractions.tap(node);
+        });
+      });
+
       test('Dispatches list-items-delete event', (done) => {
         element.addEventListener('list-items-delete', function f(e) {
           element.removeEventListener('list-items-delete', f);
           assert.isFalse(e.bubbles);
           assert.lengthOf(e.detail.items, 4);
+          done();
+        });
+        selectAndWait(4, element, () => {
+          const node = actionElement(element, 'delete-selected');
+          MockInteractions.tap(node);
+        });
+      });
+
+      test('Clears menu selection when deleting cookies', (done) => {
+        element.$.listMenuOptions.selected = 2;
+        element.addEventListener('list-items-delete', function f() {
+          element.removeEventListener('list-items-delete', f);
+          assert.equal(element.$.listMenuOptions.selected, -1);
           done();
         });
         selectAndWait(4, element, () => {
