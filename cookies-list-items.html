@@ -113,6 +113,20 @@ the License.
     div[secondary] {
       color: var(--cookies-list-item-url-color, rgba(0, 0, 0, 0.54));
     }
+
+    .menu-item {
+      cursor: pointer;
+      color: var(--context-menu-color, rgba(0, 0, 0, 0.87));
+    }
+
+    .menu-item:not(:focus):hover {
+      color: var(--context-menu-color-hover, currentcolor);
+      background-color: var(--context-menu-background-color-hover, rgba(0, 0, 0, 0.12));
+    }
+
+    .menu-item:not(:focus):hover iron-icon {
+      color: var(--context-menu-color-hover, currentcolor);
+    }
     </style>
     <section class$="table-options [[_computeOptionsTableClass(hasSelection)]]">
       <paper-checkbox class="select-all" checked="{{allSelected}}" title="Select / deselect all"></paper-checkbox>
@@ -121,15 +135,15 @@ the License.
         <paper-menu-button dynamic-align id="listMenu">
           <paper-icon-button icon="arc:more-vert" slot="dropdown-trigger"></paper-icon-button>
           <paper-listbox slot="dropdown-content" id="listMenuOptions">
-            <paper-icon-item on-click="_exportSelected" data-action="export-selected-file">
+            <paper-icon-item on-click="_exportSelected" data-action="export-selected-file" class="menu-item">
               <iron-icon icon="arc:archive" slot="item-icon"></iron-icon>
               Export to file
             </paper-icon-item>
-            <paper-icon-item on-click="_exportSelectedDrive" data-action="export-selected-drive">
+            <paper-icon-item on-click="_exportSelectedDrive" data-action="export-selected-drive" class="menu-item">
               <iron-icon icon="arc:drive-color" slot="item-icon"></iron-icon>
               Export to Google Drive
             </paper-icon-item>
-            <paper-icon-item data-action="delete-selected" on-click="_deleteSelected">
+            <paper-icon-item data-action="delete-selected" on-click="_deleteSelected" class="menu-item">
               <iron-icon icon="arc:delete" slot="item-icon"></iron-icon>
               Delete selected
             </paper-icon-item>
