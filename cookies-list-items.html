@@ -355,6 +355,7 @@ the License.
      * Informs hosting application to delete currently selected items.
      */
     _deleteSelected() {
+      this._closeMenu();
       const selected = this.selectedItems;
       if (!selected || !selected.length) {
         return;
