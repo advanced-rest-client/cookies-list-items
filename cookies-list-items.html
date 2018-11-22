@@ -28,7 +28,6 @@ the License.
     <style>
     :host {
       display: block;
-      color: rgba(0, 0, 0, 0.87);
       @apply --arc-font-body1;
       @apply --layout-vertical;
       @apply --cookies-list-items;
@@ -69,7 +68,7 @@ the License.
     }
 
     .secondary-action {
-      color: var(--secondary-action-button-color, var(--primary-color));
+      color: var(--cookies-list-item-secondary-action-color, var(--primary-color));
       height: 36px;
       font-size: 14px;
     }
@@ -111,21 +110,26 @@ the License.
     }
 
     div[secondary] {
-      color: var(--cookies-list-item-url-color, rgba(0, 0, 0, 0.54));
+      color: var(--cookies-list-item-url-color, var(--secondary-text-color));
     }
 
-    .menu-item {
+    paper-listbox iron-icon {
+      color: var(--context-menu-item-color);
+    }
+
+    paper-listbox paper-icon-item {
+      color: var(--context-menu-item-color);
+      background-color: var(--context-menu-item-background-color);
       cursor: pointer;
-      color: var(--context-menu-color, rgba(0, 0, 0, 0.87));
     }
 
-    .menu-item:not(:focus):hover {
-      color: var(--context-menu-color-hover, currentcolor);
-      background-color: var(--context-menu-background-color-hover, rgba(0, 0, 0, 0.12));
+    paper-listbox paper-icon-item:hover {
+      color: var(--context-menu-item-color-hover);
+      background-color: var(--context-menu-item-background-color-hover);
     }
 
-    .menu-item:not(:focus):hover iron-icon {
-      color: var(--context-menu-color-hover, currentcolor);
+    paper-listbox paper-icon-item:hover iron-icon {
+      color: var(--context-menu-item-color-hover);
     }
     </style>
     <section class$="table-options [[_computeOptionsTableClass(hasSelection)]]">
@@ -218,9 +222,10 @@ the License.
    * `--cookies-list-item-value` | Mixin applied to cookie value label | `{}`
    * `--cookies-list-item-name` |  Mixin applied to cookie name label. | `{}`
    * `--cookies-list-item-url-color` | Domain and path labels color | `rgba(0, 0, 0, 0.54)`
-   * `--context-menu-color` | Context menu color | `--context-menu-color` or `rgba(0, 0, 0, 0.87)`
-   * `--context-menu-color-hover` | Context menu color when hovered | `currentcolor`
-   * `--context-menu-background-color-hover` | Menu bg color when hovered | `rgba(0, 0, 0, 0.12)`
+   * `--context-menu-item-color` | Color of the dropdown menu items | ``
+   * `--context-menu-item-background-color` | Background olor of the dropdown menu items | ``
+   * `--context-menu-item-color-hover` | Color of the dropdown menu items when hovering | ``
+   * `--context-menu-item-background-color-hover` | Background olor of the dropdown menu items when hovering | ``
    *
    * @polymer
    * @customElement
