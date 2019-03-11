@@ -135,16 +135,15 @@
         }
       }
 
-      test('Dispatches export to file event', (done) => {
+      test('Dispatches export event', (done) => {
         element.addEventListener('list-items-export', function f(e) {
           element.removeEventListener('list-items-export', f);
           assert.isFalse(e.bubbles);
           assert.lengthOf(e.detail.items, 2);
-          assert.equal(e.detail.destination, 'file');
           done();
         });
         selectAndWait(2, element, () => {
-          const node = actionElement(element, 'export-selected-file');
+          const node = actionElement(element, 'export-selected');
           MockInteractions.tap(node);
         });
       });
@@ -157,34 +156,7 @@
           done();
         });
         selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-file');
-          MockInteractions.tap(node);
-        });
-      });
-
-      test('Dispatches export to Drive event', (done) => {
-        element.addEventListener('list-items-export', function f(e) {
-          element.removeEventListener('list-items-export', f);
-          assert.isFalse(e.bubbles);
-          assert.lengthOf(e.detail.items, 3);
-          assert.equal(e.detail.destination, 'drive');
-          done();
-        });
-        selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-drive');
-          MockInteractions.tap(node);
-        });
-      });
-
-      test('Clears menu selection when saving to Drive', (done) => {
-        element.$.listMenuOptions.selected = 1;
-        element.addEventListener('list-items-export', function f() {
-          element.removeEventListener('list-items-export', f);
-          assert.equal(element.$.listMenuOptions.selected, -1);
-          done();
-        });
-        selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-drive');
+          const node = actionElement(element, 'export-selected');
           MockInteractions.tap(node);
         });
       });

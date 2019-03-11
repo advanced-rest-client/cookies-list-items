@@ -8,6 +8,10 @@
  *   cookies-list-items.html
  */
 
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
 /// <reference path="../polymer/types/polymer-element.d.ts" />
 /// <reference path="../paper-checkbox/paper-checkbox.d.ts" />
 /// <reference path="../paper-button/paper-button.d.ts" />
@@ -140,19 +144,7 @@ declare namespace UiElements {
     /**
      * Requests to export items to file.
      */
-    _exportSelected(): void;
-
-    /**
-     * Requests to export items to Drive
-     */
-    _exportSelectedDrive(): void;
-
-    /**
-     * Fires `list-items-export` event
-     *
-     * @param destination Either `file` or `drive`.
-     */
-    _export(destination: String|null): void;
+    _onExportSelected(): void;
 
     /**
      * Closes list menu and resets selection.

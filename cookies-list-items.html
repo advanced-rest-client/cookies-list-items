@@ -139,13 +139,9 @@ the License.
         <paper-menu-button dynamic-align id="listMenu">
           <paper-icon-button icon="arc:more-vert" slot="dropdown-trigger"></paper-icon-button>
           <paper-listbox slot="dropdown-content" id="listMenuOptions">
-            <paper-icon-item on-click="_exportSelected" data-action="export-selected-file" class="menu-item">
-              <iron-icon icon="arc:archive" slot="item-icon"></iron-icon>
-              Export to file
-            </paper-icon-item>
-            <paper-icon-item on-click="_exportSelectedDrive" data-action="export-selected-drive" class="menu-item">
-              <iron-icon icon="arc:drive-color" slot="item-icon"></iron-icon>
-              Export to Google Drive
+            <paper-icon-item data-action="export-selected" class="menu-item" on-click="_onExportSelected">
+              <iron-icon icon="arc:export-variant" slot="item-icon"></iron-icon>
+              Export selected
             </paper-icon-item>
             <paper-icon-item data-action="delete-selected" on-click="_deleteSelected" class="menu-item">
               <iron-icon icon="arc:delete" slot="item-icon"></iron-icon>
@@ -233,7 +229,9 @@ the License.
    * @demo demo/index.html
    */
   class CookiesListItems extends Polymer.Element {
-    static get is() {return 'cookies-list-items';}
+    static get is() {
+      return 'cookies-list-items';
+    }
     static get properties() {
       return {
         // The list of cookie items to render.
@@ -400,23 +398,8 @@ the License.
     /**
      * Requests to export items to file.
      */
-    _exportSelected() {
+    _onExportSelected() {
       this._closeMenu();
-      this._export('file');
-    }
-    /**
-     * Requests to export items to Drive
-     */
-    _exportSelectedDrive() {
-      this._closeMenu();
-      this._export('drive');
-    }
-    /**
-     * Fires `list-items-export` event
-     *
-     * @param {String} destination Either `file` or `drive`.
-     */
-    _export(destination) {
       const items = this.selectedItems;
       if (!items || !items.length) {
         return;
@@ -424,8 +407,7 @@ the License.
       this.dispatchEvent(new CustomEvent('list-items-export', {
         composed: true,
         detail: {
-          items,
-          destination
+          items
         }
       }));
     }

@@ -1,7 +1,7 @@
 {
   "name": "cookies-list-items",
   "description": "An element to display a list of cookies",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "Apache-2.0",
   "authors": [
     "Pawel Psztyc",
@@ -37,7 +37,7 @@
     "iron-test-helpers": "PolymerElements/iron-test-helpers#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
     "arc-data-generator": "advanced-rest-client/arc-data-generator#^1.0.0",
-    "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#2.0.0-preview",
+    "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#^2.0.0",
     "web-animations-js": "web-animations/web-animations-js#^2.3"
   },
   "ignore": [
