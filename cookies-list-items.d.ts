@@ -5,21 +5,18 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   cookies-list-items.html
+ *   cookies-list-items.js
  */
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../paper-checkbox/paper-checkbox.d.ts" />
-/// <reference path="../paper-button/paper-button.d.ts" />
-/// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
-/// <reference path="../paper-item/paper-icon-item.d.ts" />
-/// <reference path="../paper-item/paper-item-body.d.ts" />
-/// <reference path="../paper-input/paper-input.d.ts" />
-/// <reference path="../iron-list/iron-list.d.ts" />
-/// <reference path="../paper-icon-button/paper-icon-button.d.ts" />
-/// <reference path="../paper-listbox/paper-listbox.d.ts" />
-/// <reference path="../arc-icons/arc-icons.d.ts" />
-/// <reference path="../paper-menu-button/paper-menu-button.d.ts" />
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 
 declare namespace UiElements {
 
@@ -68,7 +65,7 @@ declare namespace UiElements {
    * `--context-menu-item-color-hover` | Color of the dropdown menu items when hovering | ``
    * `--context-menu-item-background-color-hover` | Background olor of the dropdown menu items when hovering | ``
    */
-  class CookiesListItems extends Polymer.Element {
+  class CookiesListItems extends PolymerElement {
 
     /**
      * The list of cookie items to render.
@@ -138,21 +135,9 @@ declare namespace UiElements {
     _deleteSelected(): void;
 
     /**
-     * Requests to export items to file.
-     */
-    _exportSelected(): void;
-
-    /**
      * Requests to export items to Drive
      */
-    _exportSelectedDrive(): void;
-
-    /**
-     * Fires `list-items-export` event
-     *
-     * @param destination Either `file` or `drive`.
-     */
-    _export(destination: String|null): void;
+    _onExportSelected(): void;
 
     /**
      * Closes list menu and resets selection.
@@ -177,6 +162,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "cookies-list-items": UiElements.CookiesListItems;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "cookies-list-items": UiElements.CookiesListItems;
+  }
 }

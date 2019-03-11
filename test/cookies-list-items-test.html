@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
   <title>cookies-list-items test</title>
-  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
-  <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
-  <link rel="import" href="../../iron-test-helpers/mock-interactions.html">
-  <link rel="import" href="../cookies-list-items.html">
+
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../@polymer/test-fixture/test-fixture.js"></script>
+  <script src="../../../mocha/mocha.js"></script>
+  <script src="../../../chai/chai.js"></script>
+  <script src="../../../wct-mocha/wct-mocha.js"></script>
+
 </head>
 <body>
   <test-fixture id="Basic">
@@ -17,8 +19,10 @@
     </template>
   </test-fixture>
 
-  <script>
-  /* global DataGenerator, MockInteractions */
+  <script type="module">
+  import {DataGenerator} from '../../../@advanced-rest-client/arc-data-generator/arc-data-generator.js';
+  import {tap} from '../../../@polymer/iron-test-helpers/mock-interactions.js';
+  import '../cookies-list-items.js';
   suite('cookies-list-items', () => {
     function actionElement(element, action) {
       return element.shadowRoot.querySelector('[data-action="' + action + '"]');
@@ -63,7 +67,7 @@
           assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
           done();
         });
-        MockInteractions.tap(node);
+        tap(node);
       });
 
       test('Deselectes an element via checkbox', (done) => {
@@ -73,14 +77,14 @@
           i++;
           if (i === 1) {
             assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
-            MockInteractions.tap(node);
+            tap(node);
           } else if (i === 2) {
             element.removeEventListener('selected-items-changed', f);
             assert.lengthOf(element.selectedItems, 0, 'selectedItems has one selection');
             done();
           }
         });
-        MockInteractions.tap(node);
+        tap(node);
       });
 
       test('Selectes an element via list item', (done) => {
@@ -90,7 +94,7 @@
           assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
           done();
         });
-        MockInteractions.tap(node);
+        tap(node);
       });
 
       test('Deselectes an element via list item', (done) => {
@@ -100,14 +104,14 @@
           i++;
           if (i === 1) {
             assert.lengthOf(element.selectedItems, 1, 'selectedItems has one selected item');
-            MockInteractions.tap(node);
+            tap(node);
           } else if (i === 2) {
             element.removeEventListener('selected-items-changed', f);
             assert.lengthOf(element.selectedItems, 0, 'selectedItems has one selection');
             done();
           }
         });
-        MockInteractions.tap(node);
+        tap(node);
       });
 
       test('Dispatches "list-item-details" custom event', (done) => {
@@ -118,7 +122,7 @@
           done();
         });
         const node = actionElement(element, 'item-detail');
-        MockInteractions.tap(node);
+        tap(node);
       });
 
       function selectAndWait(size, element, done) {
@@ -131,25 +135,24 @@
         });
         const nodes = element.shadowRoot.querySelectorAll('.cookie-item');
         for (let i = 0; i < size; i++) {
-          MockInteractions.tap(nodes[i]);
+          tap(nodes[i]);
         }
       }
 
-      test('Dispatches export to file event', (done) => {
+      test('Dispatches export event', (done) => {
         element.addEventListener('list-items-export', function f(e) {
           element.removeEventListener('list-items-export', f);
           assert.isFalse(e.bubbles);
           assert.lengthOf(e.detail.items, 2);
-          assert.equal(e.detail.destination, 'file');
           done();
         });
         selectAndWait(2, element, () => {
-          const node = actionElement(element, 'export-selected-file');
-          MockInteractions.tap(node);
+          const node = actionElement(element, 'export-selected');
+          tap(node);
         });
       });
 
-      test('Clears menu selection when saving to file', (done) => {
+      test('Clears menu selection when exporting', (done) => {
         element.$.listMenuOptions.selected = 0;
         element.addEventListener('list-items-export', function f() {
           element.removeEventListener('list-items-export', f);
@@ -157,35 +160,8 @@
           done();
         });
         selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-file');
-          MockInteractions.tap(node);
-        });
-      });
-
-      test('Dispatches export to Drive event', (done) => {
-        element.addEventListener('list-items-export', function f(e) {
-          element.removeEventListener('list-items-export', f);
-          assert.isFalse(e.bubbles);
-          assert.lengthOf(e.detail.items, 3);
-          assert.equal(e.detail.destination, 'drive');
-          done();
-        });
-        selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-drive');
-          MockInteractions.tap(node);
-        });
-      });
-
-      test('Clears menu selection when saving to Drive', (done) => {
-        element.$.listMenuOptions.selected = 1;
-        element.addEventListener('list-items-export', function f() {
-          element.removeEventListener('list-items-export', f);
-          assert.equal(element.$.listMenuOptions.selected, -1);
-          done();
-        });
-        selectAndWait(3, element, () => {
-          const node = actionElement(element, 'export-selected-drive');
-          MockInteractions.tap(node);
+          const node = actionElement(element, 'export-selected');
+          tap(node);
         });
       });
 
@@ -198,7 +174,7 @@
         });
         selectAndWait(4, element, () => {
           const node = actionElement(element, 'delete-selected');
-          MockInteractions.tap(node);
+          tap(node);
         });
       });
 
@@ -211,7 +187,7 @@
         });
         selectAndWait(4, element, () => {
           const node = actionElement(element, 'delete-selected');
-          MockInteractions.tap(node);
+          tap(node);
         });
       });
     });
