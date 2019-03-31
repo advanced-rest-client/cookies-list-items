@@ -11,20 +11,20 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-checkbox/paper-checkbox.js';
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/iron-flex-layout/iron-flex-layout.js';
-import '@polymer/paper-item/paper-icon-item.js';
-import '@polymer/paper-item/paper-item-body.js';
-import '@polymer/paper-input/paper-input.js';
-import '@polymer/iron-list/iron-list.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
-import '@polymer/paper-menu-button/paper-menu-button.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import '../../@polymer/paper-checkbox/paper-checkbox.js';
+import '../../@polymer/paper-button/paper-button.js';
+import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
+import '../../@polymer/paper-item/paper-icon-item.js';
+import '../../@polymer/paper-item/paper-item-body.js';
+import '../../@polymer/paper-input/paper-input.js';
+import '../../@polymer/iron-list/iron-list.js';
+import '../../@polymer/paper-icon-button/paper-icon-button.js';
+import '../../@polymer/paper-listbox/paper-listbox.js';
+import '../../@advanced-rest-client/arc-icons/arc-icons.js';
+import '../../@polymer/paper-menu-button/paper-menu-button.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
 /**
  * # Cookies list view
  *

@@ -22,6 +22,7 @@
   <script type="module">
   import {DataGenerator} from '../../../@advanced-rest-client/arc-data-generator/arc-data-generator.js';
   import {tap} from '../../../@polymer/iron-test-helpers/mock-interactions.js';
+  import sinon from '../../../sinon/pkg/sinon-esm.js';
   import '../cookies-list-items.js';
   suite('cookies-list-items', () => {
     function actionElement(element, action) {
@@ -189,6 +190,28 @@
           const node = actionElement(element, 'delete-selected');
           tap(node);
         });
+      });
+    });
+
+    suite('_searchList()', () => {
+      let element;
+      setup(() => {
+        element = fixture('Basic');
+      });
+
+      test('Dispatches list-items-search event', () => {
+        const spy = sinon.spy();
+        element.addEventListener('list-items-search', spy);
+        element._searchList();
+        assert.isTrue(spy.called);
+      });
+
+      test('Has "q" detail property', () => {
+        element.keyword = 'test';
+        const spy = sinon.spy();
+        element.addEventListener('list-items-search', spy);
+        element._searchList();
+        assert.equal(spy.args[0][0].detail.q, 'test');
       });
     });
   });
