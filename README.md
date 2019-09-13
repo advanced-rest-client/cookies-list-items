@@ -8,14 +8,6 @@
 
 A component to render a list of cookies.
 
-```html
-<cookies-list-items></cookies-list-items>
-```
-
-### API components
-
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
-
 ## Usage
 
 ### Installation
@@ -23,54 +15,52 @@ This components is a part of [API components ecosystem](https://elements.advance
 npm install --save @advanced-rest-client/cookies-list-items
 ```
 
-### In an html file
-
-```html
-<html>
-  <head>
-    <script type="module">
-      import '@advanced-rest-client/cookies-list-items/cookies-list-items.js';
-    </script>
-  </head>
-  <body>
-    <cookies-list-items></cookies-list-items>
-  </body>
-</html>
-```
-
-### In a Polymer 3 element
+### In a LitElement
 
 ```js
-import {PolymerElement, html} from '@polymer/polymer';
-import '@advanced-rest-client/cookies-list-items/cookies-list-items.js';
+import { LitElement, html } from 'lit-element';
+import '@advanced-rest-client/arc-menu/cookies-list-items.js';
 
-class SampleElement extends PolymerElement {
-  static get template() {
+class SampleElement extends LitElement {
+
+  render() {
     return html`
-    <cookies-list-items></cookies-list-items>
+    <cookies-list-items
+      ?compatibility="${this.compatibility}"
+      ?outlined="${this.outlined}"
+      .listType="${this.listType}"
+      .items="${this.cookies}"
+      @list-items-delete="${this._onDelete}"
+      @list-items-export="${this._onExport}"
+      @list-items-search="${this._onSearch}"
+      @list-item-details="${this._onDetails}"
+    ></cookies-list-items>
     `;
   }
 }
 customElements.define('sample-element', SampleElement);
 ```
 
-### Installation
+
+## Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/cookies-list-items
-cd api-url-editor
+cd cookies-list-items
 npm install
-npm install -g polymer-cli
 ```
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
 ```sh
-polymer test --npm
+npm test
 ```
+
+## API components
+
+This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
