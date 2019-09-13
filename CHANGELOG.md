@@ -47,3 +47,12 @@
 
 
 
+# 3.0.0 (2019-09-13)
+
+
+### Bug Fixes
+
+* fixing merge errors ([d4d323e](https://github.com/advanced-rest-client/cookies-list-items/commit/d4d323e))
+
+
+
